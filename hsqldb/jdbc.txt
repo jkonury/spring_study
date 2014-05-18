@@ -1,0 +1,11 @@
+Oracle
+oracle.jdbc.driver.OracleDriver
+jdbc:oracle:thin:@localhost:1521:orcl11
+
+MySQL
+com.mysql.jdbc.Driver
+jdbc:mysql://localhost:3306/hong?zeroDateTimeBehavior=convertToNull
+
+HSQLDB
+org.hsqldb.jdbcDriver
+jdbc:hsqldb:hsql://localhost/users

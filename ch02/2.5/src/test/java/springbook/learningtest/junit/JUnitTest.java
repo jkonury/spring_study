@@ -1,6 +1,5 @@
 package springbook.learningtest.junit;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,8 @@ import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+import static org.junit.matchers.JUnitMatchers.either;
+import static org.junit.matchers.JUnitMatchers.hasItem;
 
 
 /**
@@ -24,7 +25,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration("classpath:junit.xml")
 public class JUnitTest {
     @Autowired
-    ApplicationContext context;
+    ApplicationContext context; // 테스트 컨테스트가 매번 주입해주는 애플리케이션 컨텍스트는 항상 같은 오브젝트인지 테스트로 확인해본다.
 
     static Set<JUnitTest> testObjects = new HashSet<JUnitTest>();
     static ApplicationContext contextObject = null;
@@ -35,7 +36,7 @@ public class JUnitTest {
         testObjects.add(this);
 
         assertThat(contextObject == null || contextObject == this.context, is(true));
-
+        contextObject = this.context;
     }
 
     @Test
@@ -43,7 +44,7 @@ public class JUnitTest {
         assertThat(testObjects, not(hasItem(this)));
         testObjects.add(this);
 
-        assertThat(contextObject == null || contextObject == this.context, is(true));
+        assertTrue(contextObject == null || contextObject == this.context);
         contextObject = this.context;
     }
 
@@ -52,7 +53,7 @@ public class JUnitTest {
         assertThat(testObjects, not(hasItem(this)));
         testObjects.add(this);
 
-//        assertThat(contextObject, either(is(nullValue())).or(is(this.contextObject)));
+        assertThat(contextObject, either(is(nullValue())).or(is(this.contextObject)));
         contextObject = this.context;
     }
 }
