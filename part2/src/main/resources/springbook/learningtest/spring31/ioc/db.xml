@@ -1,0 +1,9 @@
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="db.driverClass">com.mysql.jdbc.Driver</entry>
+    <entry key="db.url">jdbc:mysql://localhost/springbook?characterEncoding=UTF-8</entry>
+    <entry key="db.username">spring</entry>
+    <entry key="db.password">book</entry>
+
+    <entry key="name">토비</entry>
+</properties>
