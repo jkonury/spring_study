@@ -1,6 +1,7 @@
 package springbook.learningtest.spring31.ioc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,10 +9,11 @@ import javax.annotation.PostConstruct;
 
 @Configuration
 public class SimpleConfig {
-    @Autowired
+    @Autowired @Qualifier("hello2")
     Hello hello;
 
     @Bean
+    @Qualifier("hello2")
     Hello hello() {
         return new Hello();
     }

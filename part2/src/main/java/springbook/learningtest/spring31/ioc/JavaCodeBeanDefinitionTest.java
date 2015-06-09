@@ -97,6 +97,6 @@ public class JavaCodeBeanDefinitionTest {
     @Test
     public void atImportResource() {
         AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(MainConfig.class);
-        assertThat((String)ac.getBean("name"), is("Toby"));
+        assertThat(ac.getBean("name"), is("Toby"));
     }
 }

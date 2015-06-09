@@ -3,6 +3,8 @@ package springbook.learningtest.spring31.ioc;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
+import org.apache.commons.dbcp.BasicDataSource;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,10 +16,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,6 +111,43 @@ public class EnvironmentTest {
         Environment env = context.getBean(Environment.class);
         assertThat(env.getProperty("name"), is("토비"));
     }
+    
+    @Test
+    public void embeddedDb() throws Exception {
+        GenericXmlApplicationContext context = new GenericXmlApplicationContext(getClass(), "edb.xml");
+        context.getBean(DataSource.class);
+    }
 
+    @Test
+    public void profiles() throws Exception {
+        // dev profile
+        GenericXmlApplicationContext context = new GenericXmlApplicationContext();
+        context.getEnvironment().setActiveProfiles("dev");
+        context.load(getClass(), "profile.xml");
+        context.refresh();
+        assertThat(context.getBean(DataSource.class), instanceOf(BasicDataSource.class));
+        context.close();
+    }
 
+    @Test
+    public void activeProfile() throws Exception {
+        // system property
+        System.setProperty(AbstractEnvironment.ACTIVE_PROFILES_PROPERTY_NAME, "dev");
+
+        GenericXmlApplicationContext context = new GenericXmlApplicationContext();
+        context.load(getClass(), "profile.xml");
+        context.refresh();
+        assertThat(context.getBean(DataSource.class), instanceOf(BasicDataSource.class));
+        context.close();
+    }
+
+//    이 테스트는 테스트 실행 환경에 VM 파라미터로 -Dspring.profiles.active=dev를 지정하고 수행해야 한다.
+//	@Test
+//	public void activeProfileCommandLineParameter() {
+//		GenericXmlApplicationContext ac2 = new GenericXmlApplicationContext();
+//		ac2.load(getClass(), "profile.xml");
+//		ac2.refresh();
+//		assertThat(ac2.getBean(DataSource.class), is(BasicDataSource.class));
+//		ac2.close();
+//	}
 }

@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class ConfigurableDispatcherServlet extends DispatcherServlet {
     // 설정 방법을 확장해서 클래스와 XML 파일 두 가지 방법을 모두 지원하기 위해
-    private Class<?>[] classes;
+    protected Class<?>[] classes;
     private String[] locations;
 
     // 컨트롤러가 DispatcherServlet에 돌려주는 모델과 뷰 정보를 저장해서 테스트에서 확인할 수 있게 해준다.

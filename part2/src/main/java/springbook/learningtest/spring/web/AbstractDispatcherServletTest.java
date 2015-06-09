@@ -1,3 +1,6 @@
+/*
+p389
+*/
 package springbook.learningtest.spring.web;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -10,6 +13,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.mock.web.MockServletConfig;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -82,7 +86,7 @@ public abstract class AbstractDispatcherServletTest implements AfterRunService{
         return this;
     }
 
-    public AbstractDispatcherServletTest buildDispathcerServlet() throws ServletException {
+    public AbstractDispatcherServletTest buildDispatcherServlet() throws ServletException {
         if (this.classes == null && this.locations == null && this.relateiveLocations == null) {
             throw new IllegalStateException("classes와 locations 중 하나는 설정해야 합니다.");
         }
@@ -97,9 +101,13 @@ public abstract class AbstractDispatcherServletTest implements AfterRunService{
         return this;
     }
 
+    protected ConfigurableDispatcherServlet createDispatcherServlet() {
+        return new ConfigurableDispatcherServlet();
+    }
+
     public AfterRunService runService() throws ServletException, IOException {
         if (this.dispatcherServlet == null) {
-            buildDispathcerServlet();
+            buildDispatcherServlet();
         }
         if (this.request == null) {
             throw new IllegalStateException("request가 준비되지 않았습니다.");
@@ -121,11 +129,11 @@ public abstract class AbstractDispatcherServletTest implements AfterRunService{
     }
 
     @Override
-    public WebApplicationContext getContext() {
+    public ConfigurableWebApplicationContext getContext() {
         if (this.dispatcherServlet == null) {
             throw new IllegalStateException("DispatcherServlet이 준비되지 않았습니다");
         }
-        return this.dispatcherServlet.getWebApplicationContext();
+        return (ConfigurableWebApplicationContext) this.dispatcherServlet.getWebApplicationContext();
     }
 
     @Override

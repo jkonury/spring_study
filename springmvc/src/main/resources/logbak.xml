@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <prudent>true</prudent>
+        <file>logFile</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/home/hong/dev/github/sp4_board/log/log.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>72</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- TRACE < DEBUG < INFO < WARN < ERROR -->
+    <logger name="com.jkonury.www" level="DEBUG"/>
+    <logger name="org.springframework" level="WARN" />
+    <logger name="org.springframework.transaction" level="WARN" />
+
+    <logger name="org.springframework.core" level="INFO" />
+    <logger name="org.springframework.beans" level="INFO" />
+    <logger name="org.springframework.context" level="INFO" />
+    <logger name="org.springframework.web" level="INFO" />
+
+    <logger name="org.springframework.web.servlet.mvc" level="WARN" />
+    <!--<logger name="jdbc.sql" level="DEBUG" />-->
+    <!--<logger name="jdbc.sql.PreparedStatement" level="DEBUG" />-->
+    <!--<logger name="jdbc.sql.CallableStatement" level="DEBUG" />-->
+    <!--<logger name="jdbc.sqlonly" level="INFO" />-->
+
+
+    <root level="WARN">
+        <appender-ref ref="STDOUT" />
+        <!--<appender-ref ref="FILE" />-->
+    </root>
+</configuration>
